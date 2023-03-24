@@ -22,7 +22,7 @@ jobs:
 
     steps:
     - name: Build the Docker images
-    - run: |
+      run: |
         docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
     - run: docker build -t bratzzie/multi-client -f ./client/Dockerfile.dev ./client
     - run: docker build -t bratzzie/multi-server -f ./server/Dockerfile.dev ./server
