@@ -23,6 +23,7 @@ jobs:
     steps:
     - name: Check out code
       uses: actions/checkout@v3
+      
     - name: Build the Docker images
       run: |
         docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
@@ -34,3 +35,15 @@ jobs:
     - run: docker push bratzzie/multi-server
     - run: docker push bratzzie/multi-worker
     - run: docker push bratzzie/multi-nginx
+
+    - name: Deploy to EB
+    - uses: einaregilsson/beanstalk-deploy@v21
+      with:
+        aws_access_key: ${{secrets.AWS_ACCESS_KEY}}
+        aws_secret_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+        application_name: multi-docker
+        environment_name: Multidocker-env-1
+        existing_bucket_name: elasticbeanstalk-eu-west-3-472047855222
+        version_label: ${{github.sha}}
+        region: eu-west-3
+        deployment_package: docker-compose.yml
