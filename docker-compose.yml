@@ -2,7 +2,7 @@
     services:
       client:
         image: "bratzzie/multi-client"
-        mem_limit: 328m
+        mem_limit: 512m
         hostname: client
       server:
         image: "bratzzie/multi-server"
